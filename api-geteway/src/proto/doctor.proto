@@ -1,0 +1,81 @@
+syntax = "proto3";
+package doctor;
+service DoctorService {
+  rpc CreateDoctor(CreateDoctorRequest) returns (DoctorResponse);
+  rpc GetDoctor(GetDoctorRequest) returns (DoctorResponse);
+  rpc GetAllDoctors(Empty) returns (GetAllDoctorsResponse);
+  rpc GetDoctorForAuth(GetDoctorForAuthRequest) returns (DoctorResponse);
+  rpc GetDoctorByEmail(GetDoctorByEmailRequest) returns (DoctorResponseAuth);
+  rpc UpdateDoctor(UpdateDoctorRequest) returns (DoctorResponse);
+  rpc DeleteDoctor(DeleteDoctorRequest) returns (DeleteDoctorResponse);
+  rpc UpdateRefreshToken(UpdateRefreshTokenRequest) returns (UpdateResponse);
+  rpc ClearRefreshToken(ClearRefreshTokenRequest) returns (UpdateResponse);
+}
+message CreateDoctorRequest {
+  string fullName = 1;        
+  string phoneNumber = 2;      
+  string email = 3;            
+  string password = 4;         
+  string specialization = 5;   
+  string experience = 6;       
+}
+message GetDoctorRequest {
+  int32 id = 1;
+}
+message GetDoctorForAuthRequest {
+  int32 id = 1;
+}
+message UpdateRefreshTokenRequest {
+  int32 id = 1;
+  string refreshToken = 2;
+}
+message ClearRefreshTokenRequest {
+  int32 id = 1;
+}
+message UpdateResponse {
+  string message = 1;
+}
+message GetDoctorByEmailRequest {
+  string email = 1;
+}
+message UpdateDoctorRequest {
+  int32 id = 1;
+  string fullName = 2;
+  string phoneNumber = 3;
+  string email = 4;
+  string password = 5;
+  string specialization = 6;
+  string experience = 7;
+}
+message DeleteDoctorRequest {
+  int32 id = 1;
+}
+message Empty {}
+message DoctorResponse {
+  int32 id = 1;
+  string fullName = 2;
+  string phoneNumber = 3;
+  string email = 4;
+  string specialization = 5;
+  string experience = 6;
+  string role=7;
+  bool isActive = 8;
+}
+message GetAllDoctorsResponse {
+  repeated DoctorResponse doctors = 1;
+}
+message DeleteDoctorResponse {
+  string message = 1;
+}
+
+message DoctorResponseAuth {
+  int32 id = 1;
+  string fullName = 2;
+  string phoneNumber = 3;
+  string email = 4;
+  string specialization = 5;
+  string experience = 6;
+  string role=7;
+  string password=8;
+  bool isActive = 9;
+}

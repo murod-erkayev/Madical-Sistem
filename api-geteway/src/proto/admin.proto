@@ -1,0 +1,171 @@
+syntax = "proto3";
+
+package admin;
+
+service AdminService {
+  // Admin CRUD
+  rpc CreateAdmin(CreateAdminRequest) returns (AdminResponse);
+  rpc GetAllAdmins(Empty) returns (GetAllAdminsResponse);
+  rpc GetAdminById(GetAdminRequest) returns (AdminResponse);
+  rpc GetAdminForAuth(GetAdminForAuthRequest) returns (AdminResponseAuth);
+  rpc GetAdminByEmail(GetAdminByEmailRequest) returns (AdminResponseAuth);
+  rpc UpdateAdmin(UpdateAdminRequest) returns (AdminResponse);
+  rpc DeleteAdmin(DeleteAdminRequest) returns (DeleteResponse);
+  
+  // Auth methodlari
+  rpc UpdateRefreshToken(UpdateRefreshTokenRequest) returns (UpdateResponse);
+  rpc ClearRefreshToken(ClearRefreshTokenRequest) returns (UpdateResponse);
+  
+  // Announcement CRUD
+  rpc CreateAnnouncement(CreateAnnouncementRequest) returns (AnnouncementResponse);
+  rpc GetAllAnnouncements(Empty) returns (GetAllAnnouncementsResponse);
+  rpc GetAnnouncementById(GetAnnouncementRequest) returns (AnnouncementResponse);
+  rpc UpdateAnnouncement(UpdateAnnouncementRequest) returns (AnnouncementResponse);
+  rpc DeleteAnnouncement(DeleteAnnouncementRequest) returns (DeleteResponse);
+  
+  // News CRUD
+  rpc CreateNews(CreateNewsRequest) returns (NewsResponse);
+  rpc GetAllNews(Empty) returns (GetAllNewsResponse);
+  rpc GetNewsById(GetNewsRequest) returns (NewsResponse);
+  rpc UpdateNews(UpdateNewsRequest) returns (NewsResponse);
+  rpc DeleteNews(DeleteNewsRequest) returns (DeleteResponse);
+}
+
+message Empty {}
+message DeleteResponse {
+  string message = 1;
+}
+
+// Admin Messages
+message CreateAdminRequest {
+  string fullName = 1;
+  string email = 2;
+  string password = 3;
+  bool isActive = 4;
+  string role = 5; 
+
+}
+
+message GetAdminRequest {
+  int32 id = 1;
+}
+
+message GetAdminForAuthRequest {
+  int32 id = 1;
+}
+
+message GetAdminByEmailRequest {
+  string email = 1;
+}
+
+// Auth methodlari uchun
+message UpdateRefreshTokenRequest {
+  int32 id = 1;
+  string refreshToken = 2;
+}
+
+message ClearRefreshTokenRequest {
+  int32 id = 1;
+}
+
+message UpdateResponse {
+  string message = 1;
+}
+
+message UpdateAdminRequest {
+  int32 id = 1;
+  string fullName = 2;
+  string email = 3;
+  string password = 4;
+  bool isActive = 5;
+}
+
+message DeleteAdminRequest {
+  int32 id = 1;
+}
+
+message AdminResponse {
+  int32 id = 1;
+  string fullName = 2;
+  string email = 3;
+  bool isActive = 4;
+  string createdAt = 5;
+  string role = 6;
+}
+
+message AdminResponseAuth {
+  int32 id = 1;
+  string fullName = 2;
+  string email = 3;
+  bool isActive = 4;
+  string createdAt = 5;
+  string password = 6;
+  string role = 7;
+  string hashedRefreshToken = 8;
+}
+
+message GetAllAdminsResponse {
+  repeated AdminResponse admins = 1;
+}
+
+// Announcement Messages
+message CreateAnnouncementRequest {
+  string title = 1;
+  string content = 2;
+}
+
+message GetAnnouncementRequest {
+  int32 id = 1;
+}
+
+message UpdateAnnouncementRequest {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message DeleteAnnouncementRequest {
+  int32 id = 1;
+}
+
+message AnnouncementResponse {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+  string createdAt = 4;
+}
+
+message GetAllAnnouncementsResponse {
+  repeated AnnouncementResponse announcements = 1;
+}
+
+// News Messages
+message CreateNewsRequest {
+  string title = 1;
+  string content = 2;
+}
+
+message GetNewsRequest {
+  int32 id = 1;
+}
+
+message UpdateNewsRequest {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message DeleteNewsRequest {
+  int32 id = 1;
+}
+
+message NewsResponse {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+  string created_at = 4;
+}
+
+message GetAllNewsResponse {
+  repeated NewsResponse news = 1;
+}
