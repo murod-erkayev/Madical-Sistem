@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package patient;
+
+// =========================
+// PATIENT SERVICE
+// =========================
+service PatientService {
+  rpc CreatePatient(CreatePatientRequest) returns (PatientResponse);
+  rpc GetPatientById(PatientByIdRequest) returns (PatientResponse);
+  rpc GetAllPatients(Empty) returns (GetAllPatientResponse);
+  rpc UpdatePatient(UpdatePatientRequest) returns (PatientResponse);
+  rpc DeletePatient(PatientByIdRequest) returns (DeleteResponse);
+}
+
+// =========================
+// VISIT SERVICE
+// =========================
+service VisitService {
+  rpc CreateVisit(CreateVisitRequest) returns (VisitResponse);
+  rpc GetVisitById(VisitByIdRequest) returns (VisitResponse);
+  rpc GetVisitsByPatientId(PatientByIdRequest) returns (GetAllVisitResponse);
+  rpc GetAllVisits(Empty) returns (GetAllVisitResponse);
+  rpc UpdateVisit(UpdateVisitRequest) returns (VisitResponse);
+  rpc DeleteVisit(VisitByIdRequest) returns (DeleteResponse);
+}
+
+// =========================
+// NOTE SERVICE
+// =========================
+service NoteService {
+  rpc CreateNote(CreateNoteRequest) returns (NoteResponse);
+  rpc GetNoteById(NoteByIdRequest) returns (NoteResponse);
+  rpc GetNotesByVisitId(VisitByIdRequest) returns (GetAllNoteResponse);
+  rpc GetAllNotes(Empty) returns (GetAllNoteResponse);
+  rpc UpdateNote(UpdateNoteRequest) returns (NoteResponse);
+  rpc DeleteNote(NoteByIdRequest) returns (DeleteResponse);
+}
+
+// =========================
+// COMMON MESSAGES
+// =========================
+message Empty {}
+
+message DeleteResponse {
+  string message = 1;
+}
+
+// =========================
+// PATIENT MESSAGES
+// =========================
+message PatientByIdRequest {
+  int32 id = 1;
+}
+
+message CreatePatientRequest {
+  string fullName = 1;
+  string phoneNumber = 2;
+  string email = 3;
+  string address = 4;
+  string bloodGroup = 5;
+  string bio = 6;
+  bool isActive = 7;
+  int32 doctorId = 8;
+}
+
+message UpdatePatientRequest {
+  int32 id = 1;
+  string fullName = 2;
+  string phoneNumber = 3;
+  string email = 4;
+  string address = 5;
+  string bloodGroup = 6;
+  string bio = 7;
+  bool isActive = 8;
+  int32 doctorId = 9;
+}
+
+message PatientResponse {
+  int32 id = 1;
+  string fullName = 2;
+  string phoneNumber = 3;
+  string email = 4;
+  string address = 5;
+  string bloodGroup = 6;
+  string bio = 7;
+  bool isActive = 8;
+  int32 doctorId = 9;
+  string createdAt = 10; // ✅ camelCase format
+}
+
+message GetAllPatientResponse {
+  repeated PatientResponse patients = 1;
+}
+
+// =========================
+// VISIT MESSAGES
+// =========================
+message VisitByIdRequest {
+  int32 id = 1;
+}
+
+message CreateVisitRequest {
+  int32 patientId = 1;
+  string visitDate = 2; // ISO 8601 format: "2024-01-15T10:30:00Z"
+  string reason = 3;
+}
+
+message UpdateVisitRequest {
+  int32 id = 1;
+  int32 patientId = 2;
+  string visitDate = 3;
+  string reason = 4;
+}
+
+message VisitResponse {
+  int32 id = 1;
+  int32 patientId = 2;
+  string visitDate = 3;
+  string reason = 4;
+  string createdAt = 5; // ✅ camelCase format
+  PatientResponse patient = 6; // Optional: bemorning ma'lumotlari
+}
+
+message GetAllVisitResponse {
+  repeated VisitResponse visits = 1;
+}
+
+// =========================
+// NOTE MESSAGES
+// =========================
+message NoteByIdRequest {
+  int32 id = 1;
+}
+
+message CreateNoteRequest {
+  string text = 1;
+  int32 visitId = 2;
+  string createdAt = 3; // ✅ Semicolon qo'shildi va camelCase
+}
+
+message UpdateNoteRequest {
+  int32 id = 1;
+  string text = 2;
+  int32 visitId = 3;
+  string createdAt = 4; // ✅ Semicolon qo'shildi va camelCase
+}
+
+message NoteResponse {
+  int32 id = 1;
+  string text = 2;
+  int32 visitId = 3;
+  string createdAt = 4; // ✅ camelCase format
+  VisitResponse visit = 5; // Optional: tashrifning ma'lumotlari
+}
+
+message GetAllNoteResponse {
+  repeated NoteResponse notes = 1;
+}
